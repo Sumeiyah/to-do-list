@@ -1,63 +1,66 @@
 import React, { useEffect, useState } from 'react';
-import './App.css'
+import './App.css';
 
 const TodoList = () => {
-    const [inputTask, setInputTask] = useState('');
-    const [list, setList] = useState([]);
-    const [posts, setPosts] = useState([]);
+  const [inputTask, setInputTask] = useState('');
+  const [list, setList] = useState([]);
 
-    const handleAddTodo = () => {
-        const newTask = {
-            id: Math.random(),
-            todo: inputTask
-        };
-
-       setList([...list, newTask]);
-        setInputTask('');
+  const handleAddTodo = () => {
+    const newTask = {
+      id: Math.random(),
+      title: inputTask, // Assuming we are using 'title' property for the todo item.
     };
 
-   const handleDeleteTodo = (id) => {
-        const newList = list.filter((todo) => todo.id !== id);
-        setList(newList);
-    };
+    setList([...list, newTask]);
+    setInputTask('');
+  };
 
-   const handleInputChange = (event) => {
-        setInputTask(event.target.value);
-    };
+  const handleDeleteTodo = (id) => {
+    const newList = list.filter((todo) => todo.id !== id);
+    setList(newList);
+  };
 
-    useEffect(()=> {
+  const handleInputChange = (event) => {
+    setInputTask(event.target.value);
+  };
 
-        let url = 'http://localhost:4000/posts'
+  useEffect(() => {
+    // Fetch the data from db.json using the Fetch API
+    fetch('/db.json')
+      .then((response) => response.json())
+      .then((data) => setList(data.todos,))
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
 
-        fetch(url).then(res => res.json()).then(data => setPosts(data))
-    }, [])
+  return (
+    <div className="Todo bg-yellow">
+      <h1 className="text-brown">My To-Do List</h1>
 
-   return (
-        <div className="Todo">
-            <h1>My To-Do List</h1>
-        
-            {posts.map(post => <li>{post.author}</li>)}
-            <div className="Top">
-                <input className="input" type="text" value={inputTask}
-                   onChange={handleInputChange} placeholder="Enter a task" />
+      <div className="Top">
+        <input
+          className="input"
+          type="text"
+          value={inputTask}
+          onChange={handleInputChange}
+          placeholder="Enter a task"
+        />
+        <button className="btn" onClick={handleAddTodo}>
+          ADD
+        </button>
+      </div>
 
-                <button className="btn" onClick={handleAddTodo}>ADD</button>
-            </div>
-
-           <ul>
-                { list.map((todo) => (
-                    <li className="task" key={todo.id}>
-                        {todo.todo}
-                        <button onClick={() => handleDeleteTodo(todo.id)}>
-                           Delete
-                       </button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+      <ul>
+        {list.map((todo) => (
+          <li className="task" key={todo.id}>
+            {todo.title}
+            <button className="bg-skyblue text-white" onClick={() => handleDeleteTodo(todo.id)}>
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
-export default TodoList; 
-
-
+export default TodoList;

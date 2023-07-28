@@ -1,0 +1,34 @@
+      {
+
+
+"todos": [
+      {
+        "id": 1,
+        "title": "Buy groceries",
+        "completed": false,
+        "dueDate": "2023-07-31"
+       
+      },
+      {
+        "id": 2,
+        "title": "Finish report for work",
+        "completed": false,
+        "dueDate": "2023-08-05"
+        
+      },
+      {
+        "id": 3,
+        "title": "Call mom",
+        "completed": false,
+        "dueDate": "2023-07-28"
+        
+      },
+      {
+        "id": "4",
+        "title": "Go for a walk",
+        "completed": true,
+        "dueDate": "2023-07-25"
+        
+      }
+    ]
+  }
